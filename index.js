@@ -614,6 +614,65 @@ app.get('/staff-appointments/:username', authenticateToken, async (req, res) => 
     });
 });
 
+/**
+ * @swagger
+ * /appointments/{name}:
+ *   put:
+ *     summary: Update appointment verification status by visitor name.
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         description: The name of the visitor associated with the appointment.
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: body
+ *         name: body
+ *         description: Appointment verification details.
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             verification:
+ *               type: boolean
+ *           required:
+ *             - verification
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Appointment verification status updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Appointment verification updated successfully
+ *       403:
+ *         description: Invalid or unauthorized token or appointment not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid or unauthorized token or appointment not found
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error updating appointment verification
+ */
+
+
 // Update appointment verification by visitor name
 app.put('/appointments/:name', authenticateToken, async (req, res) => {
   const { name } = req.params;
@@ -642,6 +701,54 @@ app.put('/appointments/:name', authenticateToken, async (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /appointments/{name}:
+ *   delete:
+ *     summary: Delete appointment by visitor name.
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         description: The name of the visitor associated with the appointment.
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Appointment deleted successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Appointment deleted successfully
+ *       403:
+ *         description: Invalid or unauthorized token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid or unauthorized token
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error deleting appointment
+ */
+
+
 // Delete appointment
 app.delete('/appointments/:name', authenticateToken, async (req, res) => {
   const { name } = req.params;
@@ -660,6 +767,72 @@ app.delete('/appointments/:name', authenticateToken, async (req, res) => {
       res.status(500).send('Error deleting appointment');
     });
 });
+
+/**
+ * @swagger
+ * /appointments:
+ *   get:
+ *     summary: Get all appointments (for security).
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         description: Filter appointments by visitor name (case-insensitive).
+ *         schema:
+ *           type: string
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of appointments.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                   company:
+ *                     type: string
+ *                   purpose:
+ *                     type: string
+ *                   phoneNo:
+ *                     type: string
+ *                   date:
+ *                     type: string
+ *                     format: date
+ *                   time:
+ *                     type: string
+ *                   verification:
+ *                     type: boolean
+ *                   staff:
+ *                     type: object
+ *                     properties:
+ *                       username:
+ *                         type: string
+ *       403:
+ *         description: Invalid or unauthorized token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid or unauthorized token
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error retrieving appointments
+ */
+
 
 // Get all appointments (for security)
 app.get('/appointments', authenticateToken, async (req, res) => {
@@ -682,6 +855,47 @@ app.get('/appointments', authenticateToken, async (req, res) => {
       res.status(500).send('Error retrieving appointments');
     });
 });
+
+/**
+ * @swagger
+ * /logout:
+ *   post:
+ *     summary: Logout (invalidate token).
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully logged out.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Logged out successfully
+ *       403:
+ *         description: Invalid or unauthorized token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid or unauthorized token
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error logging out
+ */
+
 
 // Logout
 app.post('/logout', authenticateToken, async (req, res) => {

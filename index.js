@@ -220,6 +220,34 @@ app.get('/staff-appointments/:username', authenticateToken, async (req, res) => 
     });
 });
 
+// Update appointment verification by visitor name
+app.put('/appointments/:name', authenticateToken, async (req, res) => {
+  const { name } = req.params;
+  const { verification } = req.body;
+  const { role, username: authenticatedUsername } = req.user;
+
+  if (role !== 'staff') {
+    return res.status(403).send('Invalid or unauthorized token');
+  }
+
+  // Find the appointment by name and staff username
+  const appointment = await appointmentDB.findOne({ name, 'staff.username': authenticatedUsername });
+
+  if (!appointment) {
+    return res.status(404).send('Appointment not found');
+  }
+
+  // Update the verification only if the staff member matches the creator
+  appointmentDB
+    .updateOne({ name, 'staff.username': authenticatedUsername }, { $set: { verification } })
+    .then(() => {
+      res.status(200).send('Appointment verification updated successfully');
+    })
+    .catch((error) => {
+      res.status(500).send('Error updating appointment verification');
+    });
+});
+
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)
 })

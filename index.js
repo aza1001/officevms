@@ -128,9 +128,10 @@ app.post('/register-staff', async (req, res) => {
     res.status(201).json({ token });
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 });
+
 
 // Register security
 app.post('/register-security', async (req, res) => {

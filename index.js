@@ -60,58 +60,62 @@ app.get('/', (req, res) => {
  * @swagger
  * /register-staff:
  *   post:
- *     summary: Register a new staff member
- *     security:
- *       - bearerAuth: []
+ *     summary: Register a new staff member (Security only).
  *     parameters:
  *       - in: header
- *         name: authorization
- *         description: The authorization token obtained during login.
- *         required: true
- *         type: string
- *       - in: body
- *         name: body
- *         description: Staff registration details
+ *         name: Authorization
+ *         description: The security token for authentication.
  *         required: true
  *         schema:
- *           type: object
- *           properties:
- *             username:
- *               type: string
- *             password:
- *               type: string
- *           required:
- *             - username
- *             - password
+ *           type: string
+ *     requestBody:
+ *       description: Staff registration details.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: The username of the new staff member.
+ *               password:
+ *                 type: string
+ *                 description: The password of the new staff member.
+ *             required:
+ *               - username
+ *               - password
  *     responses:
  *       201:
- *         description: Successfully registered a new staff member
+ *         description: Successfully registered a new staff member.
  *         schema:
  *           type: object
  *           properties:
  *             token:
  *               type: string
  *       400:
- *         description: Bad request, username already exists or missing token
+ *         description: Bad request, username already exists.
  *         schema:
  *           type: object
  *           properties:
  *             error:
  *               type: string
  *       401:
- *         description: Unauthorized, invalid or missing token
+ *         description: Unauthorized, invalid security token.
  *         schema:
  *           type: object
  *           properties:
  *             error:
  *               type: string
+ *               example: Invalid security token
  *       500:
- *         description: Internal Server Error
+ *         description: Internal Server Error.
  *         schema:
  *           type: object
  *           properties:
  *             error:
  *               type: string
+ *               example: Internal Server Error
  */
 
 

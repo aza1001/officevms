@@ -119,6 +119,9 @@ app.post('/register-staff', async (req, res) => {
       password: hashedPassword,
     });
 
+    // Log the result
+    console.log('MongoDB Insert Result:', result);
+
     // Generate JWT token
     const token = jwt.sign({ username, role: 'staff' }, secretKey);
 

@@ -510,6 +510,81 @@ app.post('/appointments', async (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /staff-appointments/{username}:
+ *   get:
+ *     summary: Get appointments for a specific staff member.
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         description: The username of the staff member.
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved staff appointments.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     description: The name for the appointment.
+ *                   company:
+ *                     type: string
+ *                     description: The company associated with the appointment.
+ *                   purpose:
+ *                     type: string
+ *                     description: The purpose of the appointment.
+ *                   phoneNo:
+ *                     type: string
+ *                     description: The phone number associated with the appointment.
+ *                   date:
+ *                     type: string
+ *                     format: date
+ *                     description: The date of the appointment.
+ *                   time:
+ *                     type: string
+ *                     format: time
+ *                     description: The time of the appointment.
+ *                   staff:
+ *                     type: object
+ *                     properties:
+ *                       username:
+ *                         type: string
+ *                         description: The username of the staff member handling the appointment.
+ *                   verification:
+ *                     type: boolean
+ *                     description: The verification status of the appointment.
+ *       403:
+ *         description: Invalid or unauthorized token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid or unauthorized token
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error retrieving appointments
+ */
+
 // Get staff's appointments
 app.get('/staff-appointments/:username', authenticateToken, async (req, res) => {
   const { username } = req.params;

@@ -135,6 +135,59 @@ app.post('/register-staff', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /register-security:
+ *   post:
+ *     summary: Register a new security member
+ *     requestBody:
+ *       description: Security registration details
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             required:
+ *               - username
+ *               - password
+ *     responses:
+ *       200:
+ *         description: Successfully registered a new security member
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Security registered successfully
+ *       409:
+ *         description: Conflict, username already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Username already exists
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error registering security
+ */
+
 
 // Register security
 app.post('/register-security', async (req, res) => {

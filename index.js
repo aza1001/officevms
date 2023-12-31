@@ -188,6 +188,7 @@ app.post('/register-staff', async (req, res) => {
  *                   example: Error registering security
  */
 
+
 // Register security
 app.post('/register-security', async (req, res) => {
   const { username, password } = req.body;

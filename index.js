@@ -2,6 +2,8 @@ const express = require('express')
 const mongodb = require('mongodb')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const swaggerJsdoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
 
 const app = express()
 const port = process.env.PORT || 3000;
@@ -44,6 +46,17 @@ const authenticateToken = (req, res, next) => {
     next();
   });
 };
+
+// HELLO WORLD
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Returns a simple "Hello World!" message.
+ *     responses:
+ *       200:
+ *         description: Successful response with the message.
+ */
 
 app.get('/', (req, res) => {
    res.send('Hello World!')
@@ -316,6 +329,21 @@ app.post('/logout', authenticateToken, async (req, res) => {
     res.status(500).send('Invalid role');
   }
 });
+
+// Swagger setup
+const options = {
+  swaggerDefinition: {
+    info: {
+      title: 'Office Appointment Management',
+      version: '1.0.0',
+      description: 'API documentation for my application',
+    },
+  },
+  apis: ['index.js'], 
+};
+
+const specs = swaggerJsdoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)

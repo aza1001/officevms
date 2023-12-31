@@ -162,6 +162,40 @@ app.post('/login-security', async (req, res) => {
     });
 });
 
+// Create appointment
+app.post('/appointments', async (req, res) => {
+  const {
+    name,
+    company,
+    purpose,
+    phoneNo,
+    date,
+    time,
+    verification,
+    staff: { username },
+  } = req.body;
+
+  const appointment = {
+    name,
+    company,
+    purpose,
+    phoneNo,
+    date,
+    time,
+    verification,
+    staff: { username },
+  };
+
+  appointmentDB
+    .insertOne(appointment)
+    .then(() => {
+      res.status(200).send('Appointment created successfully');
+    })
+    .catch((error) => {
+      res.status(500).send('Error creating appointment');
+    });
+});
+
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)
 })

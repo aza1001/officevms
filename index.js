@@ -81,6 +81,32 @@ app.post('/register-staff', async (req, res) => {
   }
 });
 
+// Register security
+app.post('/register-security', async (req, res) => {
+  const { username, password } = req.body;
+
+  const existingSecurity = await securityDB.findOne({ username });
+
+  if (existingSecurity) {
+    return res.status(409).send('Username already exists');
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const security = {
+    username,
+    password: hashedPassword,
+  };
+
+  securityDB
+    .insertOne(security)
+    .then(() => {
+      res.status(200).send('Security registered successfully');
+    })
+    .catch((error) => {
+      res.status(500).send('Error registering security');
+    });
+});
 
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)

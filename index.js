@@ -115,6 +115,7 @@ app.get('/', (req, res) => {
  *               properties:
  *                 error:
  *                   type: string
+ *     parameters: []  # Add an empty parameters array to indicate no path/query parameters
  */
 
 app.post('/register-staff', async (req, res) => {

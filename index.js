@@ -196,6 +196,30 @@ app.post('/appointments', async (req, res) => {
     });
 });
 
+// Get staff's appointments
+app.get('/staff-appointments/:username', authenticateToken, async (req, res) => {
+  const { username } = req.params;
+  const { role, username: authenticatedUsername } = req.user;
+
+  if (role !== 'staff') {
+    return res.status(403).send('Invalid or unauthorized token');
+  }
+
+  if (username !== authenticatedUsername) {
+    return res.status(403).send('Invalid or unauthorized token');
+  }
+
+  appointmentDB
+    .find({ 'staff.username': username })
+    .toArray()
+    .then((appointments) => {
+      res.json(appointments);
+    })
+    .catch((error) => {
+      res.status(500).send('Error retrieving appointments');
+    });
+});
+
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)
 })

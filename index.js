@@ -423,7 +423,7 @@ app.post('/login-security', async (req, res) => {
  *               description: Name of the person making the appointment.
  *             company:
  *               type: string
- *               description: Company name.
+ *               description: Company of the person making the appointment.
  *             purpose:
  *               type: string
  *               description: Purpose of the appointment.
@@ -437,10 +437,10 @@ app.post('/login-security', async (req, res) => {
  *             time:
  *               type: string
  *               format: time
- *               description: Time of the appointment (HH:mm:ss).
+ *               description: Time of the appointment (HH:MM).
  *             verification:
  *               type: string
- *               description: Verification details for the appointment.
+ *               description: Verification status (N/A for non-editable).
  *             staff:
  *               type: object
  *               properties:
@@ -459,24 +459,20 @@ app.post('/login-security', async (req, res) => {
  *     responses:
  *       200:
  *         description: Appointment created successfully.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Appointment created successfully
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: Appointment created successfully
  *       500:
  *         description: Internal Server Error.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Error creating appointment
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *               example: Error creating appointment
  */
 
 

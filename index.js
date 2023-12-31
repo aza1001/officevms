@@ -108,6 +108,33 @@ app.post('/register-security', async (req, res) => {
     });
 });
 
+// Staff login
+app.post('/login-staff', async (req, res) => {
+  const { username, password } = req.body;
+
+  const staff = await staffDB.findOne({ username });
+
+  if (!staff) {
+    return res.status(401).send('Invalid credentials');
+  }
+
+  const passwordMatch = await bcrypt.compare(password, staff.password);
+
+  if (!passwordMatch) {
+    return res.status(401).send('Invalid credentials');
+  }
+
+  const token = jwt.sign({ username, role: 'staff' }, secretKey);
+  staffDB
+    .updateOne({ username }, { $set: { token } })
+    .then(() => {
+      res.status(200).json({ token });
+    })
+    .catch(() => {
+      res.status(500).send('Error storing token');
+    });
+});
+
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)
 })

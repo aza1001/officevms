@@ -73,6 +73,9 @@ app.get('/', (req, res) => {
  *                 type: string
  *               password:
  *                 type: string
+ *             required:
+ *               - username
+ *               - password
  *     responses:
  *       201:
  *         description: Successfully registered a new staff member
@@ -101,7 +104,6 @@ app.get('/', (req, res) => {
  *               properties:
  *                 error:
  *                   type: string
- *     parameters: []  # Add an empty parameters array to indicate no path/query parameters
  */
 
 app.post('/register-staff', async (req, res) => {

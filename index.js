@@ -216,6 +216,59 @@ app.post('/register-security', async (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /login-staff:
+ *   post:
+ *     summary: Authenticate and login a staff member.
+ *     requestBody:
+ *       description: Staff login details.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             required:
+ *               - username
+ *               - password
+ *     responses:
+ *       200:
+ *         description: Successfully logged in. Returns a JWT token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *       401:
+ *         description: Invalid credentials.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid credentials
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error storing token
+ */
+
+
 // Staff login
 app.post('/login-staff', async (req, res) => {
   const { username, password } = req.body;

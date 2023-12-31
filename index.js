@@ -36,7 +36,7 @@ const swaggerSpec = swaggerJsdoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // MongoDB connection
-mongodb.MongoClient.connect(mongoURL, { useUnifiedTopology: true })
+mongodb.MongoClient.connect(mongoURL, /*{ useUnifiedTopology: true }*/)
   .then((client) => {
     const db = client.db(dbName);
     const staffDB = db.collection(staffCollection);

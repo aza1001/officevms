@@ -52,17 +52,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// HELLO WORLD
-/**
- * @swagger
- * /:
- *   get:
- *     summary: Returns a simple "Hello World!" message.
- *     responses:
- *       200:
- *         description: Successful response with the message.
- */
-
 app.get('/', (req, res) => {
    res.send('Hello World!')
 })

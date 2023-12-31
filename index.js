@@ -69,18 +69,17 @@ app.get('/', (req, res) => {
  *         description: The authorization token obtained during login.
  *         required: true
  *         type: string
- *     requestBody:
- *       description: Staff registration details
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
+ *       - in: body
+ *         name: body
+ *         description: Staff registration details
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *             password:
+ *               type: string
  *           required:
  *             - username
  *             - password
@@ -114,6 +113,7 @@ app.get('/', (req, res) => {
  *             error:
  *               type: string
  */
+
 
 app.post('/register-staff', async (req, res) => {
   try {

@@ -248,6 +248,25 @@ app.put('/appointments/:name', authenticateToken, async (req, res) => {
     });
 });
 
+// Delete appointment
+app.delete('/appointments/:name', authenticateToken, async (req, res) => {
+  const { name } = req.params;
+  const { role } = req.user;
+
+  if (role !== 'staff') {
+    return res.status(403).send('Invalid or unauthorized token');
+  }
+
+  appointmentDB
+    .deleteOne({ name })
+    .then(() => {
+      res.status(200).send('Appointment deleted successfully');
+    })
+    .catch((error) => {
+      res.status(500).send('Error deleting appointment');
+    });
+});
+
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)
 })

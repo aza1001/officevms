@@ -223,7 +223,19 @@ app.post('/register-security', async (req, res) => {
  *     summary: Authenticate and login a staff member.
  *     requestBody:
  *       description: Staff login details.
- *       required: false
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             required:
+ *               - username
+ *               - password
  *     responses:
  *       200:
  *         description: Successfully logged in. Returns a JWT token.

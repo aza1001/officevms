@@ -62,6 +62,56 @@ app.get('/', (req, res) => {
    res.send('Hello World!')
 })
 
+/**
+ * @swagger
+ * /register-staff:
+ *   post:
+ *     summary: Register a new staff member
+ *     requestBody:
+ *       description: Staff registration details
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             required:
+ *               - username
+ *               - password
+ *     responses:
+ *       201:
+ *         description: Successfully registered a new staff member
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *       400:
+ *         description: Bad request, username already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+
 app.post('/register-staff', async (req, res) => {
   try {
     const { username, password } = req.body;

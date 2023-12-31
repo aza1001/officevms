@@ -24,15 +24,16 @@ app.use(express.json());
 
 const options = {
     definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'VMS appointment',
-            version: '1.0.0',
-        },
+      openapi: '3.0.0',
+      info: {
+        title: 'VMS appointment',
+        version: '1.0.0',
+      },
     },
-    apis: ['./index.js'],
-};
-const swaggerSpec = swaggerJsdoc(options);
+    apis: ['./index.js'], 
+  };
+  const swaggerSpec = swaggerJsdoc(options);
+  
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // MongoDB connection
@@ -77,6 +78,7 @@ mongodb.MongoClient.connect(mongoURL, /*{ useUnifiedTopology: true }*/)
  *       500:
  *         description: Internal Server Error
  */
+
 app.post('/register-staff', async (req, res) => {
     try {
       const { username, password } = req.body;
@@ -108,8 +110,6 @@ app.post('/register-staff', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-    
-        
 
     // Staff login
 

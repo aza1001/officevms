@@ -514,7 +514,7 @@ app.post('/appointments', async (req, res) => {
  * @swagger
  * /staff-appointments/{username}:
  *   get:
- *     summary: Get appointments for a specific staff member.
+ *     summary: Get appointments for a staff member.
  *     parameters:
  *       - in: path
  *         name: username
@@ -536,33 +536,35 @@ app.post('/appointments', async (req, res) => {
  *                 properties:
  *                   name:
  *                     type: string
- *                     description: The name for the appointment.
  *                   company:
  *                     type: string
- *                     description: The company associated with the appointment.
  *                   purpose:
  *                     type: string
- *                     description: The purpose of the appointment.
  *                   phoneNo:
  *                     type: string
- *                     description: The phone number associated with the appointment.
  *                   date:
  *                     type: string
  *                     format: date
- *                     description: The date of the appointment.
  *                   time:
  *                     type: string
  *                     format: time
- *                     description: The time of the appointment.
+ *                   verification:
+ *                     type: boolean
  *                   staff:
  *                     type: object
  *                     properties:
  *                       username:
  *                         type: string
- *                         description: The username of the staff member handling the appointment.
- *                   verification:
- *                     type: boolean
- *                     description: The verification status of the appointment.
+ *               example:
+ *                 - name: John Doe
+ *                   company: ABC Inc.
+ *                   purpose: Meeting
+ *                   phoneNo: +1234567890
+ *                   date: '2023-01-01'
+ *                   time: '09:00:00'
+ *                   verification: true
+ *                   staff:
+ *                     username: staffuser
  *       403:
  *         description: Invalid or unauthorized token.
  *         content:

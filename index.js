@@ -405,6 +405,81 @@ app.post('/login-security', async (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /appointments:
+ *   post:
+ *     summary: Create a new appointment.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         description: Appointment details.
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *               description: Name of the person making the appointment.
+ *             company:
+ *               type: string
+ *               description: Company name.
+ *             purpose:
+ *               type: string
+ *               description: Purpose of the appointment.
+ *             phoneNo:
+ *               type: string
+ *               description: Phone number of the person making the appointment.
+ *             date:
+ *               type: string
+ *               format: date
+ *               description: Date of the appointment (YYYY-MM-DD).
+ *             time:
+ *               type: string
+ *               format: time
+ *               description: Time of the appointment (HH:mm:ss).
+ *             verification:
+ *               type: string
+ *               description: Verification details for the appointment.
+ *             staff:
+ *               type: object
+ *               properties:
+ *                 username:
+ *                   type: string
+ *                   description: Username of the staff member handling the appointment.
+ *           required:
+ *             - name
+ *             - company
+ *             - purpose
+ *             - phoneNo
+ *             - date
+ *             - time
+ *             - verification
+ *             - staff
+ *     responses:
+ *       200:
+ *         description: Appointment created successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Appointment created successfully
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error creating appointment
+ */
+
+
 // Create appointment
 app.post('/appointments', async (req, res) => {
   const {

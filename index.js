@@ -73,9 +73,6 @@ app.get('/', (req, res) => {
  *                 type: string
  *               password:
  *                 type: string
- *             required:
- *               - username
- *               - password
  *     responses:
  *       201:
  *         description: Successfully registered a new staff member

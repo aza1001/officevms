@@ -59,4 +59,4 @@ jobs:
           app-name: 'asgofficevms'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5CF58537ABD84ECE8F9C1F2C1BEBC96E }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B959404DB8B54E1FA4C15A167B88A419 }}

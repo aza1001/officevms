@@ -267,6 +267,28 @@ app.delete('/appointments/:name', authenticateToken, async (req, res) => {
     });
 });
 
+// Get all appointments (for security)
+app.get('/appointments', authenticateToken, async (req, res) => {
+  const { name } = req.query;
+  const { role } = req.user;
+
+  if (role !== 'security') {
+    return res.status(403).send('Invalid or unauthorized token');
+  }
+
+  const filter = name ? { name: { $regex: name, $options: 'i' } } : {};
+
+  appointmentDB
+    .find(filter)
+    .toArray()
+    .then((appointments) => {
+      res.json(appointments);
+    })
+    .catch((error) => {
+      res.status(500).send('Error retrieving appointments');
+    });
+});
+
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)
 })

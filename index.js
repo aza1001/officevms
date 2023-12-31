@@ -289,6 +289,34 @@ app.get('/appointments', authenticateToken, async (req, res) => {
     });
 });
 
+// Logout
+app.post('/logout', authenticateToken, async (req, res) => {
+  const { role } = req.user;
+
+  // Depending on the role (staff or security), update the corresponding collection (staffDB or securityDB)
+  if (role === 'staff') {
+    staffDB
+      .updateOne({ username: req.user.username }, { $unset: { token: 1 } })
+      .then(() => {
+        res.status(200).send('Logged out successfully');
+      })
+      .catch(() => {
+        res.status(500).send('Error logging out');
+      });
+  } else if (role === 'security') {
+    securityDB
+      .updateOne({ username: req.user.username }, { $unset: { token: 1 } })
+      .then(() => {
+        res.status(200).send('Logged out successfully');
+      })
+      .catch(() => {
+        res.status(500).send('Error logging out');
+      });
+  } else {
+    res.status(500).send('Invalid role');
+  }
+});
+
 app.listen(port, () => {
    console.log(`Example app listening on port ${port}`)
 })

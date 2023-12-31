@@ -60,31 +60,29 @@ app.get('/', (req, res) => {
  * @swagger
  * /register-staff:
  *   post:
- *     summary: Register a new staff member (Security only).
+ *     summary: Register a new staff member (Security Authorization Required).
  *     parameters:
  *       - in: header
- *         name: Authorization
- *         description: The security token for authentication.
+ *         name: authorization
+ *         type: string
+ *         required: true
+ *         description: The security token for authorization.
+ *       - in: body
+ *         name: body
+ *         description: Staff registration details.
  *         required: true
  *         schema:
- *           type: string
- *     requestBody:
- *       description: Staff registration details.
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *                 description: The username of the new staff member.
- *               password:
- *                 type: string
- *                 description: The password of the new staff member.
- *             required:
- *               - username
- *               - password
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *               description: The username for the new staff member.
+ *             password:
+ *               type: string
+ *               description: The password for the new staff member.
+ *           required:
+ *             - username
+ *             - password
  *     responses:
  *       201:
  *         description: Successfully registered a new staff member.
@@ -108,6 +106,14 @@ app.get('/', (req, res) => {
  *             error:
  *               type: string
  *               example: Invalid security token
+ *       403:
+ *         description: Forbidden, only security can register new staff.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *               example: Permission denied
  *       500:
  *         description: Internal Server Error.
  *         schema:

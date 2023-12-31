@@ -124,7 +124,6 @@ app.get('/', (req, res) => {
  *               example: Internal Server Error
  */
 
-
 app.post('/register-staff', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -516,20 +515,20 @@ app.post('/appointments', async (req, res) => {
  *   get:
  *     summary: Get appointments for a staff member.
  *     parameters:
- *       - in: header
- *         name: authorization
- *         type: string
- *         required: true
- *         description: The security token for authorization.
- *       - in: path
- *         name: username
- *         description: The username of the staff member.
- *         required: true
- *         schema:
- *           type: string
+ *      - in: header
+ *        name: authorization
+ *        type: string
+ *        required: true
+ *        description: The staff token for authorization.
+ *      - in: path
+ *        name: username
+ *        description: The username of the staff member.
+ *        required: true
+ *        schema:
+ *          type: string
  *     responses:
  *       200:
- *         description: Successfully retrieved staff appointments.
+ *         description: List of appointments for the staff member.
  *         content:
  *           application/json:
  *             schema:
@@ -539,35 +538,35 @@ app.post('/appointments', async (req, res) => {
  *                 properties:
  *                   name:
  *                     type: string
+ *                     description: The name for the appointment.
  *                   company:
  *                     type: string
+ *                     description: The company associated with the appointment.
  *                   purpose:
  *                     type: string
+ *                     description: The purpose of the appointment.
  *                   phoneNo:
  *                     type: string
+ *                     description: The phone number associated with the appointment.
  *                   date:
  *                     type: string
  *                     format: date
+ *                     description: The date of the appointment.
  *                   time:
  *                     type: string
  *                     format: time
+ *                     description: The time of the appointment.
  *                   verification:
  *                     type: boolean
- *                   staff:
- *                     type: object
- *                     properties:
- *                       username:
- *                         type: string
- *               example:
- *                 - name: John Doe
- *                   company: ABC Inc.
- *                   purpose: Meeting
- *                   phoneNo: +1234567890
- *                   date: '2023-01-01'
- *                   time: '09:00:00'
- *                   verification: true
- *                   staff:
- *                     username: staffuser
+ *                     description: The verification status of the appointment.
+ *                 required:
+ *                   - name
+ *                   - company
+ *                   - purpose
+ *                   - phoneNo
+ *                   - date
+ *                   - time
+ *                   - verification
  *       403:
  *         description: Invalid or unauthorized token.
  *         content:
@@ -589,6 +588,7 @@ app.post('/appointments', async (req, res) => {
  *                   type: string
  *                   example: Error retrieving appointments
  */
+
 
 // Get staff's appointments
 app.get('/staff-appointments/:username', authenticateToken, async (req, res) => {

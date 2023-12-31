@@ -49,6 +49,37 @@ app.get('/', (req, res) => {
    res.send('Hello World!')
 })
 
+app.post('/register-staff', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Check if the username already exists
+    const existingStaff = await staffDB.findOne({ username });
+    if (existingStaff) {
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new staff member
+    const newStaff = await staffDB.create({
+      username,
+      password: hashedPassword,
+    });
+
+    // Generate JWT token
+    const token = jwt.sign({ username, role: 'staff' }, secretKey);
+
+    // Update the staff member with the token
+    await staffDB.updateOne({ username }, { $set: { token } });
+
+    res.status(201).json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 app.listen(port, () => {

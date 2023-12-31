@@ -61,18 +61,26 @@ app.get('/', (req, res) => {
  * /register-staff:
  *   post:
  *     summary: Register a new staff member
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: body
- *         name: body
- *         description: Staff registration details
+ *       - in: header
+ *         name: authorization
+ *         description: The authorization token obtained during login.
  *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             username:
- *               type: string
- *             password:
- *               type: string
+ *         type: string
+ *     requestBody:
+ *       description: Staff registration details
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
  *           required:
  *             - username
  *             - password
@@ -85,7 +93,14 @@ app.get('/', (req, res) => {
  *             token:
  *               type: string
  *       400:
- *         description: Bad request, username already exists
+ *         description: Bad request, username already exists or missing token
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *       401:
+ *         description: Unauthorized, invalid or missing token
  *         schema:
  *           type: object
  *           properties:

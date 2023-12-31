@@ -140,21 +140,21 @@ app.post('/register-staff', async (req, res) => {
  * /register-security:
  *   post:
  *     summary: Register a new security member
- *     requestBody:
- *       description: Security registration details
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *             required:
- *               - username
- *               - password
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         description: Security registration details
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *             password:
+ *               type: string
+ *           required:
+ *             - username
+ *             - password
  *     responses:
  *       200:
  *         description: Successfully registered a new security member

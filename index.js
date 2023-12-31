@@ -142,6 +142,7 @@ app.post('/register-staff', async (req, res) => {
  *       '401':
  *         description: Unauthorized - Invalid credentials
  */
+
 app.post('/login-staff', async (req, res) => {
   const { username, password } = req.body;
 

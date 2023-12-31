@@ -516,14 +516,17 @@ app.post('/appointments', async (req, res) => {
  *   get:
  *     summary: Get appointments for a staff member.
  *     parameters:
+ *       - in: header
+ *         name: authorization
+ *         type: string
+ *         required: true
+ *         description: The security token for authorization.
  *       - in: path
  *         name: username
  *         description: The username of the staff member.
  *         required: true
  *         schema:
  *           type: string
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Successfully retrieved staff appointments.

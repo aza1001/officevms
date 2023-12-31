@@ -221,23 +221,23 @@ app.post('/register-security', async (req, res) => {
  * /login-staff:
  *   post:
  *     summary: Authenticate and login a staff member.
- *     requestBody:
- *       description: Staff login details.
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *                 description: The username of the staff member.
- *               password:
- *                 type: string
- *                 description: The password of the staff member.
- *             required:
- *               - username
- *               - password
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         description: Staff login details.
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *               description: The username of the staff member.
+ *             password:
+ *               type: string
+ *               description: The password of the staff member.
+ *           required:
+ *             - username
+ *             - password
  *     responses:
  *       200:
  *         description: Successfully logged in. Returns a JWT token.
@@ -269,6 +269,7 @@ app.post('/register-security', async (req, res) => {
  *                   type: string
  *                   example: Error storing token
  */
+
 
 // Staff login
 app.post('/login-staff', async (req, res) => {

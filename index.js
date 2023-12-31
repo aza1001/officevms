@@ -298,6 +298,61 @@ app.post('/login-staff', async (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /login-security:
+ *   post:
+ *     summary: Authenticate and login a security member.
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         description: Security login details.
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *               description: The username of the security member.
+ *             password:
+ *               type: string
+ *               description: The password of the security member.
+ *           required:
+ *             - username
+ *             - password
+ *     responses:
+ *       200:
+ *         description: Successfully logged in. Returns a JWT token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *       401:
+ *         description: Invalid credentials.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid credentials
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error storing token
+ */
+
+
 // Security login
 app.post('/login-security', async (req, res) => {
   const { username, password } = req.body;

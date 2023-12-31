@@ -15,7 +15,7 @@ app.use(express.json())
 const mongoURL =
   'mongodb+srv://aza:mongoaza@officevms.tilw1nt.mongodb.net/?retryWrites=true&w=majority';
 
-const dbName = 'office appointment';
+const dbName = 'officevms';
 const staffCollection = 'staff';
 const securityCollection = 'security';
 const appointmentCollection = 'appointments';

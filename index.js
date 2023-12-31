@@ -131,7 +131,7 @@ app.post('/register-staff', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new staff member
-    const newStaff = await staffDB.create({
+    const result = await staffDB.insertOne({
       username,
       password: hashedPassword,
     });

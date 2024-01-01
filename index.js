@@ -61,8 +61,12 @@ app.get('/', (req, res) => {
  * /register-staff:
  *   post:
  *     summary: Register staff member (for security).
- *     security:
- *       - BearerAuth: []
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         type: string
+ *         required: true
+ *         description: The security token for authorization.
  *     requestBody:
  *       required: true
  *       content:
@@ -72,11 +76,10 @@ app.get('/', (req, res) => {
  *             properties:
  *               username:
  *                 type: string
- *                 description: Staff member's username.
+ *                 description: The username of the staff.
  *               password:
  *                 type: string
- *                 format: password
- *                 description: Staff member's password.
+ *                 description: The staff's password.
  *     responses:
  *       200:
  *         description: Staff registered successfully.

@@ -69,9 +69,6 @@ app.get('/', (req, res) => {
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - username
- *               - password
  *             properties:
  *               username:
  *                 type: string

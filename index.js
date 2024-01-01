@@ -61,25 +61,29 @@ app.get('/', (req, res) => {
  * /register-staff:
  *   post:
  *     summary: Register staff member (for security).
- *     parameters:
- *       - in: header
- *         name: authorization
- *         type: string
- *         required: true
- *         description: the security token for authorization
- *       - in: Body
- *         name: username
- *         description: the username of the staff
- *         required: true
- *       - in: Body
- *         name: password
- *         description: staff’s password 
- *         required: true
- *         schema:
- *           type: string
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: The username of the new staff member.
+ *                 example: john_doe
+ *               password:
+ *                 type: string
+ *                 description: The password for the new staff member.
+ *                 example: strongPassword123
  *     responses:
  *       200:
  *         description: Staff registered successfully.
+ *         content:
+ *           text/plain:
+ *             example: Staff registered successfully
  *       403:
  *         description: Invalid or unauthorized token.
  *         content:
@@ -111,7 +115,6 @@ app.get('/', (req, res) => {
  *                   type: string
  *                   example: Error registering staff
  */
-
 
 app.post('/register-staff', authenticateToken, async (req, res) => {
   const { role } = req.user;

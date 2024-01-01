@@ -55,63 +55,53 @@ const authenticateToken = (req, res, next) => {
 app.get('/', (req, res) => {
    res.send('Hello World!')
 })
-         
+
 /**
  * @swagger
  * /register-staff:
  *   post:
- *     summary: Register staff member (for security).
- *     security:
- *       - BearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *                 description: The username of the new staff member.
- *               password:
- *                 type: string
- *                 description: The password for the new staff member.
+ *     summary: Register a new staff member (Security Authorization Required).
+ *     parameters:
+ *       - in: header
+ *         name: authorization
+ *         type: string
+ *         required: true
+ *         description: The security token for authorization.
+ *       - in: body
+ *         name: body
+ *         description: Staff registration details.
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *               description: The username for the new staff member.
+ *             password:
+ *               type: string
+ *               description: The password for the new staff member.
+ *           required:
+ *             - username
+ *             - password
  *     responses:
- *       200:
- *         description: Staff registered successfully.
- *         content:
- *           text/plain:
- *             example: Staff registered successfully
+ *       201:
+ *         description: Successfully registered a new staff member.
  *       403:
- *         description: Invalid or unauthorized token.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Invalid or unauthorized token
- *       409:
- *         description: Username already exists.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Username already exists
+ *         description: Forbidden, only security can register new staff.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *               example: Permission denied
  *       500:
  *         description: Internal Server Error.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Error registering staff
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *               example: Internal Server Error
  */
 
 

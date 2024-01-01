@@ -63,23 +63,20 @@ app.get('/', (req, res) => {
  *     summary: Register staff member (for security).
  *     parameters:
  *       - in: header
- *         name: Authorization
+ *         name: authorization
  *         type: string
  *         required: true
- *         description: The security token for authorization.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *                 description: The username of the staff.
- *               password:
- *                 type: string
- *                 description: The staff's password.
+ *         description: the security token for authorization
+ *       - in: Body
+ *         name: username
+ *         description: the username of the staff
+ *         required: true
+ *       - in: Body
+ *         name: password
+ *         description: staff’s password 
+ *         required: true
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Staff registered successfully.
@@ -114,6 +111,7 @@ app.get('/', (req, res) => {
  *                   type: string
  *                   example: Error registering staff
  */
+
 
 app.post('/register-staff', authenticateToken, async (req, res) => {
   const { role } = req.user;

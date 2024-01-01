@@ -1,0 +1,94 @@
+### create visitors
+POST https://asgofficevms.azurewebsites.net/register-staff
+Content-Type: application/json
+Authorization: Bearer eiyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsInJvbGUiOiJzZWN1cml0eSIsImlhdCI6MTY4NzcwMDY3Mn0.MI7STn_YOshuXx43CYlDiSk1ZC0e4NqqB9eB_-ch8BM
+
+{
+  "username": "john",
+  "password": "123" 
+}
+// staff registration
+
+###
+
+POST http://localhost:3000/register-security
+Content-Type: application/json
+
+{
+  "username": "bob",
+  "password": "123" 
+}
+// security registration
+
+###
+
+POST http://localhost:3000/login-staff
+Content-Type: application/json
+
+{
+  "username": "john",
+  "password": "123" 
+}
+// staff login
+
+###
+
+POST http://localhost:3000/login-security
+Content-Type: application/json
+
+{
+  "username": "bob",
+  "password": "123" 
+}
+// security login
+
+###
+
+POST http://localhost:3000/appointments
+Content-Type: application/json
+
+{
+  "name": "yat",
+  "company": "ABC Corporation",
+  "purpose": "meeting",
+  "phoneNo": "011223344",
+  "date": "26-6-2023",
+  "time": "12:00AM",
+  "verification": "N/A",
+  "staff": {
+    "username": "fadh"
+  }
+}
+
+###
+
+GET http://localhost:3000/staff-appointments/john
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJyb2xlIjoic3RhZmYiLCJpYXQiOjE2ODgwMzU3MTJ9.lUyhw3FKnJWCa6cO1c_J-mEsrcR8miNWXjo5DnSHNf0
+
+###
+
+PUT http://localhost:3000/appointments/yat
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJyb2xlIjoic3RhZmYiLCJpYXQiOjE2ODgwMzUzMjR9.6wI_N4QpTqY-eixW3rzOsNew76vvlbPL3a2weZRcYsk
+Content-Type: application/json
+
+{ "verification": "verified" }
+
+###
+
+DELETE http://localhost:3000/appointments/yat
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZhZGgiLCJyb2xlIjoic3RhZmYiLCJpYXQiOjE2ODc2ODM1NDh9.XkbTmIIEl9YSoZfuEJJCuhwDln_PU9pLrOktBOdVsok
+
+####
+
+GET http://localhost:3000/appointments?name=wanzu
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsInJvbGUiOiJzZWN1cml0eSIsImlhdCI6MTY4NzY4MzY5M30.nQT6xkT3gUoFpxjSEYTaX0Bti_sX1TKaXZuuFvOvSi4
+
+//optional
+###
+POST http://localhost:3000/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZhZGgiLCJyb2xlIjoic3RhZmYiLCJpYXQiOjE2ODc3MDc4NTR9.7SH9XF5k48Zp4w0OQONs6nA0Enf0Rl1FMAb0DZD2fsU
+Content-Type: application/json
+
+{
+  "username": "fadh"
+}

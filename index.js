@@ -60,104 +60,90 @@ app.get('/', (req, res) => {
  * @swagger
  * /register-staff:
  *   post:
- *     summary: Register a new staff member (Security Authorization Required).
- *     parameters:
- *       - in: header
- *         name: authorization
- *         type: string
- *         required: true
- *         description: The security token for authorization.
- *       - in: body
- *         name: body
- *         description: Staff registration details.
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             username:
- *               type: string
- *               description: The username for the new staff member.
- *             password:
- *               type: string
- *               description: The password for the new staff member.
- *           required:
- *             - username
- *             - password
+ *     summary: Register staff member (for security).
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: Staff member's username.
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: Staff member's password.
  *     responses:
- *       201:
- *         description: Successfully registered a new staff member.
- *         schema:
- *           type: object
- *           properties:
- *             token:
- *               type: string
- *       400:
- *         description: Bad request, username already exists.
- *         schema:
- *           type: object
- *           properties:
- *             error:
- *               type: string
- *       401:
- *         description: Unauthorized, invalid security token.
- *         schema:
- *           type: object
- *           properties:
- *             error:
- *               type: string
- *               example: Invalid security token
+ *       200:
+ *         description: Staff registered successfully.
  *       403:
- *         description: Forbidden, only security can register new staff.
- *         schema:
- *           type: object
- *           properties:
- *             error:
- *               type: string
- *               example: Permission denied
+ *         description: Invalid or unauthorized token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid or unauthorized token
+ *       409:
+ *         description: Username already exists.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Username already exists
  *       500:
  *         description: Internal Server Error.
- *         schema:
- *           type: object
- *           properties:
- *             error:
- *               type: string
- *               example: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error registering staff
  */
 
-app.post('/register-staff', async (req, res) => {
-  try {
-    const { username, password } = req.body;
+app.post('/register-staff', authenticateToken, async (req, res) => {
+  const { role } = req.user;
 
-    // Check if the username already exists
-    const existingStaff = await staffDB.findOne({ username });
-    if (existingStaff) {
-      return res.status(400).json({ error: 'Username already exists' });
-    }
-
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create a new staff member
-    const result = await staffDB.insertOne({
-      username,
-      password: hashedPassword,
-    });
-
-    // Log the result
-    console.log('MongoDB Insert Result:', result);
-
-    // Generate JWT token
-    const token = jwt.sign({ username, role: 'staff' }, secretKey);
-
-    // Update the staff member with the token
-    await staffDB.updateOne({ username }, { $set: { token } });
-
-    res.status(201).json({ token });
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+  if (role !== 'security') {
+    return res.status(403).send('Invalid or unauthorized token');
   }
+
+  const { username, password } = req.body;
+
+  const existingStaff = await staffDB.findOne({ username });
+
+  if (existingStaff) {
+    return res.status(409).send('Username already exists');
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const staff = {
+    username,
+    password: hashedPassword,
+  };
+
+  staffDB
+    .insertOne(staff)
+    .then(() => {
+      res.status(200).send('Staff registered successfully');
+    })
+    .catch((error) => {
+      res.status(500).send('Error registering staff');
+    });
 });
+
 
 /**
  * @swagger
@@ -774,13 +760,16 @@ app.delete('/appointments/:name', authenticateToken, async (req, res) => {
  *   get:
  *     summary: Get all appointments (for security).
  *     parameters:
+ *       - in: header 
+ *         name: Authorization
+ *         type: string
+ *         required: true
+ *         description: The security token for authorization.
  *       - in: query
  *         name: name
  *         description: Filter appointments by visitor name (case-insensitive).
  *         schema:
  *           type: string
- *     security:
- *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: List of appointments.
@@ -832,6 +821,7 @@ app.delete('/appointments/:name', authenticateToken, async (req, res) => {
  *                   type: string
  *                   example: Error retrieving appointments
  */
+
 
 // Get all appointments (for security)
 app.get('/appointments', authenticateToken, async (req, res) => {

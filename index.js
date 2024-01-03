@@ -67,101 +67,6 @@ app.get('/', (req, res) => {
  *         type: string
  *         required: true
  *         description: The security token for authorization.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *                 description: The username for the new staff member.
- *               password:
- *                 type: string
- *                 description: The password for the new staff member.
- *             required:
- *               - username
- *               - password
- *     responses:
- *       201:
- *         description: Successfully registered a new staff member.
- *       403:
- *         description: Forbidden, only security can register new staff.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Permission denied
- *       409:
- *         description: Conflict, username already exists.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Username already exists
- *       500:
- *         description: Internal Server Error.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Internal Server Error
- */
-
-
-app.post('/register-staff', authenticateToken, async (req, res) => {
-  const { role } = req.user;
-
-  if (role !== 'security') {
-    return res.status(403).send('Invalid or unauthorized token');
-  }
-
-  const { username, password } = req.body;
-
-  const existingStaff = await staffDB.findOne({ username });
-
-  if (existingStaff) {
-    return res.status(409).send('Username already exists');
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const staff = {
-    username,
-    password: hashedPassword,
-  };
-
-  staffDB
-    .insertOne(staff)
-    .then(() => {
-      res.status(200).send('Staff registered successfully');
-    })
-    .catch((error) => {
-      res.status(500).send('Error registering staff');
-    });
-});
-
-/**
- * @swagger
- * /register-staff:
- *   post:
- *     summary: Register a new staff member (Security Authorization Required).
- *     parameters:
- *       - in: header
- *         name: authorization
- *         type: string
- *         required: true
- *         description: The security token for authorization.
  *       - in: body
  *         name: body
  *         description: Staff registration details.
@@ -207,6 +112,90 @@ app.post('/register-staff', authenticateToken, async (req, res) => {
  *               example: Internal Server Error
  */
 
+app.post('/register-staff', authenticateToken, async (req, res) => {
+  const { role } = req.user;
+
+  if (role !== 'security') {
+    return res.status(403).send('Invalid or unauthorized token');
+  }
+
+  const { username, password } = req.body;
+
+  const existingStaff = await staffDB.findOne({ username });
+
+  if (existingStaff) {
+    return res.status(409).send('Username already exists');
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const staff = {
+    username,
+    password: hashedPassword,
+  };
+
+  staffDB
+    .insertOne(staff)
+    .then(() => {
+      res.status(200).send('Staff registered successfully');
+    })
+    .catch((error) => {
+      res.status(500).send('Error registering staff');
+    });
+});
+
+/**
+ * @swagger
+ * /register-security:
+ *   post:
+ *     summary: Register a new security member
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         description: Security registration details
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *             password:
+ *               type: string
+ *           required:
+ *             - username
+ *             - password
+ *     responses:
+ *       200:
+ *         description: Successfully registered a new security member
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Security registered successfully
+ *       409:
+ *         description: Conflict, username already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Username already exists
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error registering security
+ */
 
 // Register security
 app.post('/register-security', async (req, res) => {

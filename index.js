@@ -118,6 +118,7 @@ app.get('/', (req, res) => {
  *                   example: Internal Server Error
  */
 
+
 app.post('/register-staff', authenticateToken, async (req, res) => {
   const { role } = req.user;
 

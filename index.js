@@ -130,29 +130,6 @@ app.post('/register-staff', authenticateToken, async (req, res) => {
     });
 });
 
-/**
- * @swagger
- * /appointments:
- *   get:
- *     summary: Get all appointments
- *     tags: [Security]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - name: name
- *         in: query
- *         description: Filter appointments by name
- *         required: false
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: List of appointments
- *       403:
- *         description: Invalid or unauthorized token
- *       500:
- *         description: Error retrieving appointments
- */
 
 // Register security
 app.post('/register-security', async (req, res) => {
@@ -181,37 +158,7 @@ app.post('/register-security', async (req, res) => {
     });
 });
 
-/**
- * @swagger
- * /login-staff:
- *   post:
- *     summary: Staff login
- *     tags: [Staff]
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Staff logged in successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *       401:
- *         description: Invalid credentials
- *       500:
- *         description: Error storing token
- */
+
 
 // Staff login
 app.post('/login-staff', async (req, res) => {
@@ -240,37 +187,7 @@ app.post('/login-staff', async (req, res) => {
     });
 });
 
-/**
- * @swagger
- * /login-security:
- *   post:
- *     summary: Security login
- *     tags: [Security]
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: Security logged in successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *       401:
- *         description: Invalid credentials
- *       500:
- *         description: Error storing token
- */
+
 
 // Security login
 app.post('/login-security', async (req, res) => {
@@ -299,43 +216,7 @@ app.post('/login-security', async (req, res) => {
     });
 });
 
-/**
- * @swagger
- * /appointments:
- *   post:
- *     summary: Create appointment
- *     tags: [Public]
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               company:
- *                 type: string
- *               purpose:
- *                 type: string
- *               phoneNo:
- *                 type: string
- *               date:
- *                 type: string
- *               time:
- *                 type: string
- *               verification:
- *                 type: boolean
- *               staff:
- *                 type: object
- *                 properties:
- *                   username:
- *                     type: string
- *     responses:
- *       200:
- *         description: Appointment created successfully
- *       500:
- *         description: Error creating appointment
- */
+
 
 // Create appointment
 app.post('/appointments', async (req, res) => {
@@ -371,29 +252,7 @@ app.post('/appointments', async (req, res) => {
     });
 });
 
-/**
- * @swagger
- * /staff-appointments/{username}:
- *   get:
- *     summary: Get staff's appointments
- *     tags: [Staff]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - name: username
- *         in: path
- *         description: Staff member's username
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: List of staff's appointments
- *       403:
- *         description: Invalid or unauthorized token
- *       500:
- *         description: Error retrieving appointments
- */
+
 
 // Get staff's appointments
 app.get('/staff-appointments/:username', authenticateToken, async (req, res) => {
@@ -419,39 +278,7 @@ app.get('/staff-appointments/:username', authenticateToken, async (req, res) => 
     });
 });
 
-/**
- * @swagger
- * /appointments/{name}:
- *   put:
- *     summary: Update appointment verification by visitor name
- *     tags: [Staff]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - name: name
- *         in: path
- *         description: Visitor's name
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               verification:
- *                 type: boolean
- *     responses:
- *       200:
- *         description: Appointment verification updated successfully
- *       403:
- *         description: Invalid or unauthorized token
- *       404:
- *         description: Appointment not found
- *       500:
- *         description: Error updating appointment verification
- */
+
 
 // Update appointment verification by visitor name
 app.put('/appointments/:name', authenticateToken, async (req, res) => {
@@ -481,29 +308,7 @@ app.put('/appointments/:name', authenticateToken, async (req, res) => {
     });
 });
 
-/**
- * @swagger
- * /appointments/{name}:
- *   delete:
- *     summary: Delete appointment
- *     tags: [Staff]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - name: name
- *         in: path
- *         description: Visitor's name
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Appointment deleted successfully
- *       403:
- *         description: Invalid or unauthorized token
- *       500:
- *         description: Error deleting appointment
- */
+
 
 // Delete appointment
 app.delete('/appointments/:name', authenticateToken, async (req, res) => {
@@ -524,29 +329,7 @@ app.delete('/appointments/:name', authenticateToken, async (req, res) => {
     });
 });
 
-/**
- * @swagger
- * /appointments:
- *   get:
- *     summary: Get all appointments (for security)
- *     tags: [Security]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - name: name
- *         in: query
- *         description: Filter appointments by name
- *         required: false
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: List of appointments
- *       403:
- *         description: Invalid or unauthorized token
- *       500:
- *         description: Error retrieving appointments
- */
+
 
 // Get all appointments (for security)
 app.get('/appointments', authenticateToken, async (req, res) => {

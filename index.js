@@ -151,58 +151,60 @@ app.post('/register-staff', authenticateToken, async (req, res) => {
     });
 });
 
-
 /**
  * @swagger
- * /register-security:
+ * /register-staff:
  *   post:
- *     summary: Register a new security member
+ *     summary: Register a new staff member (Security Authorization Required).
  *     parameters:
+ *       - in: header
+ *         name: authorization
+ *         type: string
+ *         required: true
+ *         description: The security token for authorization.
  *       - in: body
  *         name: body
- *         description: Security registration details
+ *         description: Staff registration details.
  *         required: true
  *         schema:
  *           type: object
  *           properties:
  *             username:
  *               type: string
+ *               description: The username for the new staff member.
  *             password:
  *               type: string
+ *               description: The password for the new staff member.
  *           required:
  *             - username
  *             - password
  *     responses:
- *       200:
- *         description: Successfully registered a new security member
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Security registered successfully
+ *       201:
+ *         description: Successfully registered a new staff member.
+ *       403:
+ *         description: Forbidden, only security can register new staff.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *               example: Permission denied
  *       409:
- *         description: Conflict, username already exists
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Username already exists
+ *         description: Conflict, username already exists.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *               example: Username already exists
  *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Error registering security
+ *         description: Internal Server Error.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *               example: Internal Server Error
  */
 
 

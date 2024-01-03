@@ -40,7 +40,7 @@ const authenticateToken = (req, res, next) => {
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-    return res.status(401).send('Missing token');
+    return res.status(401).send('Invalid or unauthorized token');
   }
 
   jwt.verify(token, secretKey, (err, user) => {
@@ -51,6 +51,7 @@ const authenticateToken = (req, res, next) => {
     next();
   });
 };
+
 
 app.get('/', (req, res) => {
    res.send('Hello World!')

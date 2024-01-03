@@ -1,94 +1,99 @@
-### create visitors
+### office visitor management system
 POST https://asgofficevms.azurewebsites.net/register-staff
 Content-Type: application/json
-Authorization: Bearer eiyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsInJvbGUiOiJzZWN1cml0eSIsImlhdCI6MTY4NzcwMDY3Mn0.MI7STn_YOshuXx43CYlDiSk1ZC0e4NqqB9eB_-ch8BM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZhZGgiLCJyb2xlIjoic2VjdXJpdHkiLCJpYXQiOjE3MDQwMzI2NDB9.gWOpeArs6ph8xr__H_Y3bNsAKBztV_b62eyD_4uF8rM
 
 {
-  "username": "john",
-  "password": "123" 
+  "username": "bob",
+  "password": "p4ss" 
 }
 // staff registration
 
 ###
 
-POST http://localhost:3000/register-security
+POST https://asgofficevms.azurewebsites.net/register-security
 Content-Type: application/json
 
 {
-  "username": "bob",
-  "password": "123" 
+  "username": "alice",
+  "password": "pass" 
 }
 // security registration
 
 ###
 
-POST http://localhost:3000/login-staff
+POST https://asgofficevms.azurewebsites.net/login-staff
 Content-Type: application/json
 
 {
-  "username": "john",
-  "password": "123" 
+  "username": "bob",
+  "password": "p4ss" 
 }
 // staff login
 
 ###
 
-POST http://localhost:3000/login-security
+POST https://asgofficevms.azurewebsites.net/login-security
 Content-Type: application/json
 
 {
-  "username": "bob",
-  "password": "123" 
+  "username": "alice",
+  "password": "pass" 
 }
 // security login
 
 ###
 
-POST http://localhost:3000/appointments
+POST https://asgofficevms.azurewebsites.net/appointments
 Content-Type: application/json
 
 {
-  "name": "yat",
-  "company": "ABC Corporation",
+  "name": "max",
+  "company": "123 Corporation",
   "purpose": "meeting",
   "phoneNo": "011223344",
-  "date": "26-6-2023",
-  "time": "12:00AM",
+  "date": "2-1-2024",
+  "time": "12:00PM",
   "verification": "N/A",
   "staff": {
-    "username": "fadh"
+    "username": "bob"
   }
 }
+// visitor's form to make appointment
+###
+
+GET https://asgofficevms.azurewebsites.net/staff-appointments/bob
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsInJvbGUiOiJzdGFmZiIsImlhdCI6MTcwNDIwNzQ4N30.zhiaUv0j7gxRb_MRLToruUwp75Hqc0q3txtMESKK5XM
+// list appointment (staff can check their own appointment)
 
 ###
 
-GET http://localhost:3000/staff-appointments/john
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJyb2xlIjoic3RhZmYiLCJpYXQiOjE2ODgwMzU3MTJ9.lUyhw3FKnJWCa6cO1c_J-mEsrcR8miNWXjo5DnSHNf0
-
-###
-
-PUT http://localhost:3000/appointments/yat
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJyb2xlIjoic3RhZmYiLCJpYXQiOjE2ODgwMzUzMjR9.6wI_N4QpTqY-eixW3rzOsNew76vvlbPL3a2weZRcYsk
+PUT https://asgofficevms.azurewebsites.net/appointments/max
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsInJvbGUiOiJzdGFmZiIsImlhdCI6MTcwNDIwNzQ4N30.zhiaUv0j7gxRb_MRLToruUwp75Hqc0q3txtMESKK5XM
 Content-Type: application/json
 
 { "verification": "verified" }
-
+// only staff can verified their own visitor
 ###
 
-DELETE http://localhost:3000/appointments/yat
+DELETE https://asgofficevms.azurewebsites.net/appointments/yat
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZhZGgiLCJyb2xlIjoic3RhZmYiLCJpYXQiOjE2ODc2ODM1NDh9.XkbTmIIEl9YSoZfuEJJCuhwDln_PU9pLrOktBOdVsok
-
-####
-
-GET http://localhost:3000/appointments?name=wanzu
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsInJvbGUiOiJzZWN1cml0eSIsImlhdCI6MTY4NzY4MzY5M30.nQT6xkT3gUoFpxjSEYTaX0Bti_sX1TKaXZuuFvOvSi4
-
-//optional
+// only staff can delete their own appointment
 ###
-POST http://localhost:3000/logout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZhZGgiLCJyb2xlIjoic3RhZmYiLCJpYXQiOjE2ODc3MDc4NTR9.7SH9XF5k48Zp4w0OQONs6nA0Enf0Rl1FMAb0DZD2fsU
+
+GET https://asgofficevms.azurewebsites.net/appointments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaWNlIiwicm9sZSI6InNlY3VyaXR5IiwiaWF0IjoxNzA0MjA2MzgwfQ.bPPS811P9dWnydGWQUESzOdX8i8wdWLv35C-43VhgXU
+// for security to view all staffs' appointments
+
+###
+GET https://asgofficevms.azurewebsites.net/appointments?name=max
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaWNlIiwicm9sZSI6InNlY3VyaXR5IiwiaWF0IjoxNzA0MjA2MzgwfQ.bPPS811P9dWnydGWQUESzOdX8i8wdWLv35C-43VhgXU
+// security search visitor's name check verification
+###
+POST https://asgofficevms.azurewebsites.net/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsInJvbGUiOiJzdGFmZiIsImlhdCI6MTcwNDIwNzQ4N30.zhiaUv0j7gxRb_MRLToruUwp75Hqc0q3txtMESKK5XM
 Content-Type: application/json
 
 {
-  "username": "fadh"
+  "username": "bob"
 }

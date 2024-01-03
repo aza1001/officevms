@@ -67,43 +67,56 @@ app.get('/', (req, res) => {
  *         type: string
  *         required: true
  *         description: The security token for authorization.
- *       - in: body
- *         name: body
- *         description: Staff registration details.
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             username:
- *               type: string
- *               description: The username for the new staff member.
- *             password:
- *               type: string
- *               description: The password for the new staff member.
- *           required:
- *             - username
- *             - password
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: The username for the new staff member.
+ *               password:
+ *                 type: string
+ *                 description: The password for the new staff member.
+ *             required:
+ *               - username
+ *               - password
  *     responses:
  *       201:
  *         description: Successfully registered a new staff member.
  *       403:
  *         description: Forbidden, only security can register new staff.
- *         schema:
- *           type: object
- *           properties:
- *             error:
- *               type: string
- *               example: Permission denied
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Permission denied
+ *       409:
+ *         description: Conflict, username already exists.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Username already exists
  *       500:
  *         description: Internal Server Error.
- *         schema:
- *           type: object
- *           properties:
- *             error:
- *               type: string
- *               example: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Internal Server Error
  */
-
 
 app.post('/register-staff', authenticateToken, async (req, res) => {
   const { role } = req.user;
@@ -815,7 +828,6 @@ app.delete('/appointments/:name', authenticateToken, async (req, res) => {
  *                   example: Error retrieving appointments
  */
 
-
 // Get all appointments (for security)
 app.get('/appointments', authenticateToken, async (req, res) => {
   const { name } = req.query;
@@ -825,30 +837,7 @@ app.get('/appointments', authenticateToken, async (req, res) => {
     return res.status(403).send('Invalid or unauthorized token');
   }
 
-  const filter = name ? { name: { $regex: name, $options: 'i' } } : {};
-
-  appointmentDB
-    .find(filter)
-    .toArray()
-    .then((appointments) => {
-      res.json(appointments);
-    })
-    .catch((error) => {
-      res.status(500).send('Error retrieving appointments');
-    });
-});
-
-
-// Get all appointments (for security)
-app.get('/appointments', authenticateToken, async (req, res) => {
-  const { name } = req.query;
-  const { role } = req.user;
-
-  if (role !== 'security') {
-    return res.status(403).send('Invalid or unauthorized token');
-  }
-
-  const filter = name ? { name: { $regex: name, $options: 'i' } } : {};
+  const filter = name ? { name: name } : {};
 
   appointmentDB
     .find(filter)

@@ -34,15 +34,7 @@ mongodb.MongoClient.connect(mongoURL, { useUnifiedTopology: true })
     console.error('Error connecting to MongoDB:', err);
   });
 
-/**
- * @swagger
- * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- */
+
 
 // Middleware for authentication and authorization
 const authenticateToken = (req, res, next) => {
@@ -69,23 +61,12 @@ app.get('/', (req, res) => {
 
 /**
  * @swagger
- * tags:
- *   name: Security
- *   description: APIs accessible only by security personnel
- */
-
-/**
- * @swagger
- * tags:
- *   name: Staff
- *   description: APIs accessible only by staff members
- */
-
-/**
- * @swagger
- * tags:
- *   name: Public
- *   description: APIs accessible only by visitors
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  */
 
 /**

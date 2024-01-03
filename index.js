@@ -83,13 +83,8 @@ app.get('/', (req, res) => {
  *             properties:
  *               username:
  *                 type: string
- *                 description: The username of the new staff member.
  *               password:
  *                 type: string
- *                 description: The password for the new staff member.
- *           required:
- *             - username
- *             - password
  *     responses:
  *       200:
  *         description: Staff registered successfully.
@@ -132,7 +127,6 @@ app.get('/', (req, res) => {
  *                   type: string
  *                   example: Error registering staff
  */
-
 
 app.post('/register-staff', authenticateToken, async (req, res) => {
   const { role } = req.user;

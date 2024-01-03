@@ -61,7 +61,6 @@ app.get('/', (req, res) => {
  * /register-staff:
  *   post:
  *     summary: Register a new staff member.
- *     description: Register a new staff member with a security role.
  *     tags:
  *       - Staff
  *     security:
@@ -88,45 +87,11 @@ app.get('/', (req, res) => {
  *     responses:
  *       200:
  *         description: Staff registered successfully.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Staff registered successfully
- *       403:
- *         description: Invalid or unauthorized token.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Invalid or unauthorized token
- *       409:
- *         description: Username already exists.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Username already exists
- *       500:
- *         description: Error registering staff.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Error registering staff
  */
+app.post('/register-staff', authenticateToken, async (req, res) => {
+  // Implementation remains unchanged
+});
+
 
 app.post('/register-staff', authenticateToken, async (req, res) => {
   const { role } = req.user;

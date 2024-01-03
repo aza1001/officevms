@@ -60,7 +60,7 @@ app.get('/', (req, res) => {
  * @swagger
  * /register-staff:
  *   post:
- *     summary: Register a new staff member
+ *     summary: Register a new staff member.
  *     description: Register a new staff member with a security role.
  *     tags:
  *       - Staff
@@ -83,18 +83,56 @@ app.get('/', (req, res) => {
  *             properties:
  *               username:
  *                 type: string
+ *                 description: The username of the new staff member.
  *               password:
  *                 type: string
+ *                 description: The password for the new staff member.
+ *           required:
+ *             - username
+ *             - password
  *     responses:
  *       200:
- *         description: Staff registered successfully
+ *         description: Staff registered successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Staff registered successfully
  *       403:
- *         description: Invalid or unauthorized token
+ *         description: Invalid or unauthorized token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid or unauthorized token
  *       409:
- *         description: Username already exists
+ *         description: Username already exists.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Username already exists
  *       500:
- *         description: Error registering staff
+ *         description: Error registering staff.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error registering staff
  */
+
 
 app.post('/register-staff', authenticateToken, async (req, res) => {
   const { role } = req.user;

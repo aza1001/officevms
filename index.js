@@ -88,10 +88,6 @@ app.get('/', (req, res) => {
  *       200:
  *         description: Staff registered successfully.
  */
-app.post('/register-staff', authenticateToken, async (req, res) => {
-  // Implementation remains unchanged
-});
-
 
 app.post('/register-staff', authenticateToken, async (req, res) => {
   const { role } = req.user;

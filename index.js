@@ -60,56 +60,65 @@ app.get('/', (req, res) => {
  * @swagger
  * /register-staff:
  *   post:
- *     summary: Register a new staff member (Security Authorization Required).
- *     parameters:
- *       - in: header
- *         name: authorization
- *         type: string
- *         required: true
- *         description: The security token for authorization.
- *       - in: body
- *         name: body
- *         description: Staff registration details.
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             username:
- *               type: string
- *               description: The username for the new staff member.
- *             password:
- *               type: string
- *               description: The password for the new staff member.
- *           required:
- *             - username
- *             - password
+ *     summary: Register a staff member
+ *     tags:
+ *       - Staff
+ *     description: Register a new staff member with a username and password
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: Staff username
+ *               password:
+ *                 type: string
+ *                 description: Staff password
+ *                 format: password
  *     responses:
- *       201:
- *         description: Successfully registered a new staff member.
+ *       200:
+ *         description: Staff registered successfully
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *       400:
+ *         description: Bad request or missing parameters
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Details of the error
  *       403:
- *         description: Forbidden, only security can register new staff.
- *         schema:
- *           type: object
- *           properties:
- *             error:
+ *         description: Invalid or unauthorized token
+ *         content:
+ *           text/plain:
+ *             schema:
  *               type: string
- *               example: Permission denied
  *       409:
- *         description: Conflict, username already exists.
- *         schema:
- *           type: object
- *           properties:
- *             error:
- *               type: string
- *               example: Username already exists
+ *         description: Username already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Details of the error
  *       500:
- *         description: Internal Server Error.
- *         schema:
- *           type: object
- *           properties:
- *             error:
+ *         description: Internal Server Error
+ *         content:
+ *           text/plain:
+ *             schema:
  *               type: string
- *               example: Internal Server Error
  */
 
 app.post('/register-staff', authenticateToken, async (req, res) => {

@@ -60,34 +60,72 @@ app.get('/', (req, res) => {
  * @swagger
  * /register-staff:
  *   post:
- *     summary: Register a new staff member.
- *     tags:
- *       - Staff
- *     security:
- *       - BearerAuth: []
+ *     summary: Register a new staff member
  *     parameters:
  *       - in: header
  *         name: Authorization
- *         description: Bearer token for authentication
+ *         type: string
+ *         required: true
+ *         description: The security token for authorization.
+ *       - in: body
+ *         name: body
+ *         description: Staff registration details
  *         required: true
  *         schema:
- *           type: string
- *     requestBody:
- *       description: Staff registration details
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *               description: The username of the staff member.
+ *             password:
+ *               type: string
+ *               description: The password of the staff member.
+ *           required:
+ *             - username
+ *             - password
  *     responses:
  *       200:
- *         description: Staff registered successfully.
+ *         description: Successfully registered a new staff member
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Staff registered successfully
+ *       403:
+ *         description: Invalid or unauthorized token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid or unauthorized token
+ *       409:
+ *         description: Conflict, username already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Username already exists
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error registering staff
  */
+
 
 app.post('/register-staff', authenticateToken, async (req, res) => {
   const { role } = req.user;
